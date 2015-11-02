@@ -6,7 +6,7 @@
  * academic year 2014-2015. 
  * The code, flashed no an STMicroelectronics microcontroller, implements
  * basic, read/write routines of a magnetic core memory array and is a porting
- * of an existing project for Arduino I developed by Ben North and Oliver Yash.
+ * of an existing project for Arduino I developed by Ben North and Oliver Nash.
  *
  * Copyright (C) 2015 onwards Nicola Didomenico (nicola.didomenico@gmail.com)
  * Copyright (C) 2015 onwards Salvatore Del Popolo (popolo@tin.it)
@@ -405,7 +405,7 @@ void RCC_Configuration(void)
 
 void GPIO_Configuration(void)
 {
-/* In this function GPIOs re configured and initialized. */
+/* In this function GPIOs are configured and initialized. */
 
    // Connect USART pins to AF, PA02 USART2_TX, PA03 USART2_RX
   GPIO_InitStruct_AS.GPIO_Pin = GPIO_Pin_2 | GPIO_Pin_3; 
@@ -450,7 +450,7 @@ void GPIO_Configuration(void)
 
 void USART2_Configuration(void)
 {
-/* In this function, USART2 is configured and iintialized. */
+/* In this function, USART2 is configured and initialized. */
 
   /* USARTx configured as follow:
         - BaudRate = 115200 baud
@@ -573,6 +573,7 @@ int main(void)
         printf2("\n\r Ignoring unknown command: %c \n\r", option);
     }
   }
+  return 0;
 }
 
 #ifdef  USE_FULL_ASSERT

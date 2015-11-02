@@ -1,43 +1,68 @@
-https://github.com/g4lvanix/STM32F4-workarea
+Nucleo StMicroelectronics F401/411RE board 
 
-# STM32F4 working directory template
+Project:"Magnetic Core Memory Principles, Construction and Utilizzation
+         in an Open Source EnvironmenT by Using STM32 MCUs"
 
-This repo provides a full workspace to get you started with the STM32F4xx family of controllers. It is aimed at people who prefer to work without an IDE in a simple text editor and want to compile from the command line.
+Version: "STM32F4xx DSP StdPeriph Lib V1.5.1"
 
-I have added a fixed Makefile which will enable the use of the math functions and sprintf()
-and other libc functions from newlib.
+Copyright (C) 2015 onwards Nicola Didomenico (nicola.didomenico@gmail.com)
+Copyright (C) 2015 onwards Salvatore Del Popolo (popolo@tin.it) 
 
-This working directory, especially the Makefile is base upon the [STM32F4 Discovery Firmware](http://github.com/nabilt/STM32F4-Discovery-Firmware) by nabilt.
+Requisiti software:
+a) Distribuzione basata su Debian GNU/Linux; 
+b) GNU Toolchain ARM Cortex-M/R (https://launchpad.net/gcc-arm-embedded);
+c) OpenOCD (http://openocd.org/) oppure ST-Link (https://github.com/texane/stlink);
+d) Minicom/Cutecom.
 
-Information on how to set up an arm-none-eabi-gcc toolchain required to compile code for the STM32F microcontrollers can be found [here](http://eliaselectronics.com/stm32f4-tutorials/setting-up-the-stm32f4-arm-development-toolchain/)
+Tale progetto è stato testato:
+a-bis) Distribuzione: Ubuntu Mate 14.04.3 LTS (Trusty Tahr), Kernel Version: 3.16.0-46-generic
+b-bis) gcc version 4.9.3 20150529 (release) [ARM/embedded-4_9-branch revision 227977] 
+(GNU Tools for ARM Embedded Processors) 
+c-bis) Open On-Chip Debugger 0.10.0-dev-00036-g48787e1
+d-bis) cutecom version 0.22.0-2
 
-Documentation on the peripheral library can be found in the file **stm32f4xx_dsp_stdperiph_lib_um.chm**
+HOW-TO, per avviare il progetto:
 
-##Subfolders
-+ **Project**: contains the example code, place your projects here
-+ **Libraries**: contains the STM32F4xx peripheral library and CMSIS files
-+ **Utilities**: contains more libraries for the STM32F4xx evaluation boards
+1. Creare nella home dell'utente un file nascosto, nominato .gdbinit con dentro:
+set auto-load safe-path /home/nome_utente
 
-Examples:
+2. Scaricare nella home dell'utente il template con il seguente comando da terminale:
+- git clone https://github.com/gnunicky/project_rai_nucleo_stm32f411re_spl.git  
 
-+ **GPIO** example featuring setting and reading from IO pins
-+ **USART** example using USART1 to send and receive strings
-+ **SD card** example with low level driver for **Elm Chan FatFS** (note currently still messy, no CRC, no timeout, only primitive error handling)
+3. Andare nella directory magnetic_core_memory_hal:
+- cd project_rai_nucleo_stm32f411re_spl/magnetic_core_memory_spl/
 
-###This code is licensed under the Creative Commons Attribution license v3.0
+4. Creare nella cartella un ulteriore file nascosto, nominato .gdbinit richiesto
+dal server OpenOCD GDB:
+layout split
+target extended localhost:3333
+monitor arm semihosting enable
+monitor reset halt
+load
+monitor reset init
+ 
+5. Ripulire e Compilare il progetto, con i seguenti comandi da terminale:
+- make clean
+- make
 
-**This only applies to my example code, all other code by ST and ARM are property of their respective owners and are released under a different license**
+6. Attaccare la board Nucleo 411RE con la driver shield e la IBM DJB 373330, 
+   con il seguente comando da terminale:
+- make flash_openocd / flash_stlink
 
-This means that you are free:
-+ **to Share** — to copy, distribute and transmit the work
-+ **to Remix** — to adapt the work
-+ to make commercial use of the work
+7. Avviare il server, con il seguente comando da terminale:
+- make openocd
 
-Under the following conditions:
-**Attribution** — You must attribute the work in the manner specified by the author or licensor
+8. Avviare il debugger da un'altra scheda, con il seguente comando da terminale:
+- make debug
 
-**Attribution** in this case means that you should please provide a link to [Elia's Electronics](http://eliaselectronics.com/ "My blog")
+9. Avviare un serial terminal tipo minicom/cutecom, settandolo con i seguenti parametri:
+   Device=/dev/ttyACM0
+   Baud Rate: 115200
+   Parity: None
+   Data bits: 8
+   Stop bits: 1
 
-More information on this license can be found [here](http://creativecommons.org/licenses/by/3.0/ "CC BY")
+10. Ritornare nella scheda del debbuger, digitando da terminale:
+- run o r
 
-![CC BY](http://i.creativecommons.org/l/by/3.0/88x31.png)
+11. Adesso dal serial terminal è possibile interagire con il software.
